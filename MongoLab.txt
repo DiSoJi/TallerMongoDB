@@ -1,10 +1,12 @@
 
 --------------------------------------------------
-use mongolab
+Ejecutar para generar la base y sus colecciones
+use mongolab ##Para garantizar independencia de otras bases
 db.createCollection("Pelicula")
 db.createCollection("Compañia_Productora")
 
 -----------------------Create Pelicula--------------------------------------------
+##Modelo de como se insertan las peliculas
 db.Pelicula.insert({
    _id: ObjectId(),
    Nombre: 'Movie_Name', 
@@ -19,6 +21,7 @@ db.Pelicula.insert({
 })
 
 Ejemplos:
+##Ejemplos y Población inicial.
 db.Pelicula.insert({
    _id: ObjectId(),
    Nombre: 'Final Fantasy XV: Kingsglaive', 
@@ -57,6 +60,7 @@ db.Pelicula.insert({
 })
 
 ----------------------Create Compañía-----------------------------
+##Modelo de como se insertan las peliculas
 db.Compañia Productora.insert({
    _id: ObjectId(),
    Nombre: 'Producer_Name',
@@ -64,7 +68,7 @@ db.Compañia Productora.insert({
    Web:'web site'
 })
 
-Ejemplos:
+Ejemplos: ##Ejemplos y Población inicial.
 db.Compañia_Productora.insert({
    _id: ObjectId(),
    Nombre: 'TMS Entertaiment',
@@ -81,6 +85,7 @@ db.Compañia_Productora.insert({
 
 
 ------Read------------------
+##Modelo de lecturas
 db.<NombreColeccion>.find({<propiedad>:<valor>}).pretty()
 
 Ejemplos:
@@ -88,6 +93,7 @@ Ejemplos:
 db.Pelicula.find({Genero:'Animación'}).pretty() //Devolverá todas las que tengan como genero animación
 
 ------Update----------------
+##Modelo de modificación
 db.<NombreColeccion>.updateOne({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}})  //Modifica la primera que encuentre con ese atributo especifico
 db.<NombreColeccion>.updateMany({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}}) //Modifica todas las que tengan ese atributo especifico
 
@@ -97,6 +103,7 @@ db.Pelicula.updateOne({Nombre: 'Akira'},{$set:{Productora:'Akira Comitee'}}) //C
 db.Pelicula.updateMany({Genero:'Animación'},{$set:{Franquicia:'Anime'}}) //Cambiará la franquicia de todas las peliculas que sean de genero animacion por Anime.
 
 ------Delete----------------
+##Modelo de Borrado
 db.<collectionname>.deleteOne({<propiedad>:<valor>})  //Modifica la primera que encuentre con ese atributo especifico
 db.<collectionname>.deleteMany({<propiedad>:<valor>}) //Modifica todas las que tengan ese atributo especifico
 
@@ -107,6 +114,7 @@ db.Pelicula.deleteMany({Genero:'Animación'})
 
 
 ------------------------------------------------------Consultas APP------------------------------------------------------
+
 **Consultar Pelicula por Titulo(nombre)
 db.Pelicula.find({Nombre:<valor_usuario>}).pretty()
 Ejemplo:
@@ -158,8 +166,10 @@ db.Pelicula.find({Productora:'Visual Works'}, {_id:0, Nombre: 1, Duracion: 1} ).
 
 
 
-*:Consultar el promedio de duraciones para la productora
+*:Consultar el promedio de duraciones para la productora ##No realizada por cuestiones de tiempo.
 var value = db.Pelicula.find({Productora:'Visual Works'}, {_id:0, Duracion: 1})
+
+
 
 
 
