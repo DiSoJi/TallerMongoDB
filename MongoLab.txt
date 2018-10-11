@@ -44,6 +44,7 @@ db.Pelicula.insert({
    Productora: 'TMS Entertaiment',
    Actores: ['Mitsuo Iwata','Nozomu Sasaki','Mami Koyama','Taro Ishida']
 })
+
 ----------------------Insert Compañía-----------------------------
 db.Compañia Productora.insert({
    _id: ObjectId(),
@@ -66,3 +67,24 @@ db.Compañia_Productora.insert({
    Año:'1997',
    Web:'http://visualworks.jp.square-enix.com/'
 })
+
+
+------Read------------------
+db.<NombreColeccion>.find({<propiedad>:<valor>}).pretty()
+ 
+------Update----------------
+db.<NombreColeccion>.updateOne({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}}) //Modifica la primera que encuentre con ese atributo especifico
+db.<NombreColeccion>.updateMany({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}}) //Modifica todas las que tengan ese atributo especifico
+
+------Delete----------------
+db.<collectionname>.deleteOne({<propiedad>:<valor>})  //Modifica la primera que encuentre con ese atributo especifico
+db.<collectionname>.deleteMany({<propiedad>:<valor>}) //Modifica todas las que tengan ese atributo especifico
+
+
+
+
+
+
+
+
+
