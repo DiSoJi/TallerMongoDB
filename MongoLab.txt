@@ -4,7 +4,7 @@ use mongolab
 db.createCollection("Pelicula")
 db.createCollection("Compañia_Productora")
 
------------------------Insert Pelicula--------------------------------------------
+-----------------------Create Pelicula--------------------------------------------
 db.Pelicula.insert({
    _id: ObjectId(),
    Nombre: 'Movie_Name', 
@@ -31,7 +31,18 @@ db.Pelicula.insert({
    Productora: 'Visual Works',
    Actores: ['Go Ayano','Shiori Kutsuna','Tsutomu Isobe','Shozo Lizuka','Keiji Fujiwara','Yuichi Nakamura','Koichi Yamadera','Mitsuaki Kanuka','Tomokazu Seki', 'Ayumi Fujimura']
 })
-
+db.Pelicula.insert({
+   _id: ObjectId(),
+   Nombre: 'Final Fantasy V: Advent Children', 
+   Genero: 'Animación', 
+   Director: 'Tetsuya Nomura', 
+   Franquicia: 'Final Fantasy', 
+   Pais: 'Japón', 
+   Año:'2009', 
+   Duracion: '101',
+   Productora: 'Visual Works',
+   Actores: ['Koichi Yamadera','Mitsuaki Kanuka','Tomokazu Seki', 'Ayumi Fujimura']
+})
 db.Pelicula.insert({
    _id: ObjectId(),
    Nombre: 'Akira', 
@@ -45,7 +56,7 @@ db.Pelicula.insert({
    Actores: ['Mitsuo Iwata','Nozomu Sasaki','Mami Koyama','Taro Ishida']
 })
 
-----------------------Insert Compañía-----------------------------
+----------------------Create Compañía-----------------------------
 db.Compañia Productora.insert({
    _id: ObjectId(),
    Nombre: 'Producer_Name',
@@ -71,17 +82,84 @@ db.Compañia_Productora.insert({
 
 ------Read------------------
 db.<NombreColeccion>.find({<propiedad>:<valor>}).pretty()
- 
+
+Ejemplos:
+
+db.Pelicula.find({Genero:'Animación'}).pretty() //Devolverá todas las que tengan como genero animación
+
 ------Update----------------
-db.<NombreColeccion>.updateOne({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}}) //Modifica la primera que encuentre con ese atributo especifico
+db.<NombreColeccion>.updateOne({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}})  //Modifica la primera que encuentre con ese atributo especifico
 db.<NombreColeccion>.updateMany({<propiedad>:<valor>},{$set{<propiedad_a_cambiar>:<valor>}}) //Modifica todas las que tengan ese atributo especifico
+
+Ejemplos:
+
+db.Pelicula.updateOne({Nombre: 'Akira'},{$set:{Productora:'Akira Comitee'}}) //Cambiará la productora de la primer pelicula que se llame Akira en la lista por Akira Comitee.
+db.Pelicula.updateMany({Genero:'Animación'},{$set:{Franquicia:'Anime'}}) //Cambiará la franquicia de todas las peliculas que sean de genero animacion por Anime.
 
 ------Delete----------------
 db.<collectionname>.deleteOne({<propiedad>:<valor>})  //Modifica la primera que encuentre con ese atributo especifico
 db.<collectionname>.deleteMany({<propiedad>:<valor>}) //Modifica todas las que tengan ese atributo especifico
 
+Ejemplos:
+db.Pelicula.deleteOne({Nombre:'Akira'})
+db.Pelicula.deleteMany({Genero:'Animación'})
 
 
+
+------------------------------------------------------Consultas APP------------------------------------------------------
+**Consultar Pelicula por Titulo(nombre)
+db.Pelicula.find({Nombre:<valor_usuario>}).pretty()
+Ejemplo:
+db.Pelicula.find({Nombre:'Akira'}).pretty()
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Consultar Peliculas por Franquicia
+db.Pelicula.find({Franquicia:<valor_usuario>}).pretty()
+Ejemplo:
+db.Pelicula.find({Franquicia:'Final Fantasy'}).pretty()
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Consultar toda la información de las películas estrenadas en un rango de años específico.
+
+db.Pelicula.find({$and: [{Año: {$gte: <Año_Inicial_Usuario>}},{Año: {$lte: <Año_Final_Usuario>}}]}).pretty()
+Ejemplos:
+db.Pelicula.find({$and: [{Año: {$gte: '1988'}},{Año: {$lte: '2017'}}]}).pretty()
+db.Pelicula.find({$and: [{Año: {$gte: '1988'}},{Año: {$lte: '2015'}}]}).pretty()
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Consultar el nombre de película, género, año de estreno de todas las películas producidas por una compañía productora en particular.
+
+db.Pelicula.find( { Productora: <Productora_Usuario> }, {_id:0, Nombre: 1, Genero: 1, Año: 1 } ).pretty()
+Ejemplos:
+db.Pelicula.find( { Productora: 'Visual Works'}, {_id:0, Nombre: 1, Genero: 1, Año: 1 } ).pretty()
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Consultar la cantidad de películas, la película con la menor duración, la  película  con  la  mayor  duración  y  la  duración  promedio  de  las películas producidas por una compañía productora en particular.
+
+*:Consultar Cantidad de peliculas por productora. 
+db.Pelicula.find({Productora:<valor_usuario>}).count()
+Ejemplo:
+db.Pelicula.find({Productora:'Visual Works'}).count()
+
+*:Consultar la pelicula con la menor duracion de una productora
+
+db.Pelicula.find({Productora:<User Value>}, {_id:0, Nombre: 1, Duracion: 1} ).sort({Duracion: -1}).limit(1).pretty() 
+Ejemplo:
+db.Pelicula.find({Productora:'Visual Works'}, {_id:0, Nombre: 1, Duracion: 1} ).sort({Duracion: -1}).limit(1).pretty() 
+
+*:Consultar la pelicula con la mayor duracion de una productora
+
+db.Pelicula.find({Productora:<User Value>}, {_id:0, Nombre: 1, Duracion: 1} ).sort({Duracion: 1}).limit(1).pretty() 
+Ejemplo:
+db.Pelicula.find({Productora:'Visual Works'}, {_id:0, Nombre: 1, Duracion: 1} ).sort({Duracion: 1}).limit(1).pretty() 
+
+
+
+*:Consultar el promedio de duraciones para la productora
+var value = db.Pelicula.find({Productora:'Visual Works'}, {_id:0, Duracion: 1})
 
 
 
