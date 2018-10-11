@@ -1,0 +1,68 @@
+
+--------------------------------------------------
+use mongolab
+db.createCollection("Pelicula")
+db.createCollection("Compañia_Productora")
+
+-----------------------Insert Pelicula--------------------------------------------
+db.Pelicula.insert({
+   _id: ObjectId(),
+   Nombre: 'Movie_Name', 
+   Genero: 'Movie_Genre', 
+   Director: 'Director_Name', 
+   Franquicia: 'Franchise_Name(Optional)', 
+   Pais: 'country_where_produced', 
+   Año:'year_of_screening', 
+   Duracion: 'duration_in_minutes',
+   Productora: 'producer_company',
+   Actores: ['actor1','actor2',...'actorN']
+})
+
+Ejemplos:
+db.Pelicula.insert({
+   _id: ObjectId(),
+   Nombre: 'Final Fantasy XV: Kingsglaive', 
+   Genero: 'Animación', 
+   Director: 'Takeshi Nozue', 
+   Franquicia: 'Final Fantasy', 
+   Pais: 'Japón', 
+   Año:'2016', 
+   Duracion: '110',
+   Productora: 'Visual Works',
+   Actores: ['Go Ayano','Shiori Kutsuna','Tsutomu Isobe','Shozo Lizuka','Keiji Fujiwara','Yuichi Nakamura','Koichi Yamadera','Mitsuaki Kanuka','Tomokazu Seki', 'Ayumi Fujimura']
+})
+
+db.Pelicula.insert({
+   _id: ObjectId(),
+   Nombre: 'Akira', 
+   Genero: 'Animación', 
+   Director: 'Katsuhiro Otomo', 
+   Franquicia: '', 
+   Pais: 'Japón', 
+   Año:'1988', 
+   Duracion: '124',
+   Productora: 'TMS Entertaiment',
+   Actores: ['Mitsuo Iwata','Nozomu Sasaki','Mami Koyama','Taro Ishida']
+})
+----------------------Insert Compañía-----------------------------
+db.Compañia Productora.insert({
+   _id: ObjectId(),
+   Nombre: 'Producer_Name',
+   Año:'year_of_foundation',
+   Web:'web site'
+})
+
+Ejemplos:
+db.Compañia_Productora.insert({
+   _id: ObjectId(),
+   Nombre: 'TMS Entertaiment',
+   Año:'1964',
+   Web:'http://www.tms-e.co.jp/'
+})
+
+db.Compañia_Productora.insert({
+   _id: ObjectId(),
+   Nombre: 'Visual Works',
+   Año:'1997',
+   Web:'http://visualworks.jp.square-enix.com/'
+})
